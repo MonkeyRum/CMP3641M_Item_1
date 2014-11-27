@@ -19,15 +19,17 @@
 % findspuds                                                               %
 %                                                                         %
 % Arguments:                                                              %
-% IN(i)         The image that contains potatoes on a black background    %
+% IN(Filename)  The image that contains potatoes on a black background    %
 %=========================================================================%
 
-function findspuds(I)
+function findspuds(Filename)
+
+I = imread(Filename);
 
 DEBUG = 0;
 
 %% STEP 0
-figure; imshow(I); title('Original input'); hold on;
+%figure; imshow(I); title('Original input'); hold on;
 
 %% STEP 1
 % Create a grey scale version of the image in order to better remove the
@@ -79,6 +81,16 @@ end
 [L, num] = bwlabel(open_image, 8);
 props = regionprops(L, 'All');
 
+I2 = I; % don't mess with the original image
+se = strel('diamond',1);
+outline_image = label2rgb(L, 'lines', 'k', 'shuffle');
+outline_image = imdilate(outline_image,se) - outline_image;
+thresh = rgb2gray(outline_image) > 0;
+blue = I2(:,:,3);
+blue(thresh) = 255;
+I2(:,:,3) = blue;
+figure; imshow(I2);
+
 % output
 str = ['Number of potatoes:\t', num2str(num), '\n\n'];
 fprintf(str);
@@ -124,10 +136,6 @@ for(m = 1:num)
     str = ['Avg Entropy\t\t', num2str(avg_entropy), '\n\n'];
     fprintf(str);
 end
-
-outline_image = label2rgb(L, 'lines', 'k', 'shuffle');
-outline_image = imdilate(outline_image,se) - outline_image;
-figure; imshow(outline_image); title('Outlines');
 
 
 
