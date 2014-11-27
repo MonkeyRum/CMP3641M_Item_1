@@ -5,9 +5,6 @@
 % Author(s):    Alexander Jenkins (JEN11214787)                           %
 % Description:  Performs a median filter on a Matrix with two dimensions  %
 % Returns:      Median filtered matrix                                    %
-%                                                                         %
-% Limits:                                                                 %
-%               - Even sized capture dimension gets expanded to next odd  %
 %=========================================================================%
 
 %% =======================================================================%
@@ -31,21 +28,25 @@ MedianFilteredImage = uint8(zeros(M, N));
 A = V(1); % Window height
 B = V(2); % Window width
 
-% Replicate the border pixels so they don't mess with the median
-I2 = padarray(I, [A, B], 'replicate');
+% Used to adjust for even sized windows
+% Since the capture loop will always take the central pixel regardless
+AdjustA = not(mod(A, 2)); 
+AdjustB = not(mod(B, 2));
 
 % Pre-compute some stuff
 A2 = floor(A/2);
 B2 = floor(B/2);
 
+% Replicate the border pixels so they don't mess with the median
+I2 = padarray(I, [A, B], 'replicate');
+
 % Loop the 'original' pixels
 for m = 1+A:M+A
     for n = 1+B:N+B
         
-        % Get our capture... will add stuff on even capture dimensions
-        Capture = I2(m - A2:m + A2, n - B2: n + B2);
+        Capture = I2(m - A2:m + A2 - AdjustA, n - B2: n + B2 - AdjustB);
         Capture = Capture(:); % flatten our matrix
-        Med = median(Capture);
+        Med = median(Capture); % horrifically slow
         
         MedianFilteredImage(m-A, n-B) = Med;
         
