@@ -30,17 +30,17 @@ TempB = zeros(1, N(1));
 for(i=1:N(1))
     loc1 = PL(i, 1);
     loc2 = PL(i, 2);
-    TempR(i) = I(loc1, loc2, 1);
-    TempG(i) = I(loc1, loc2, 2);
-    TempB(i) = I(loc1, loc2, 3);
+    TempR(i) = I(loc2, loc1, 1);
+    TempG(i) = I(loc2, loc1, 2);
+    TempB(i) = I(loc2, loc1, 3);
 end
 
 % Find avgs and std devs
 R = mean(TempR);
 G = mean(TempG);
 B = mean(TempB);
-SR = mean(TempR);
-SG = mean(TempG);
-SB = mean(TempB);
+SR = std(TempR);
+SG = std(TempG);
+SB = std(TempB);
 
 end

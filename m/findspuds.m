@@ -95,13 +95,19 @@ for(m = 1:num)
     x = props(m).Centroid(1);
     y = props(m).Centroid(2);
     
-    b1 = props(m).BoundingBox(1);
-    b2 = props(m).BoundingBox(2);
-    b3 = props(m).BoundingBox(3);
-    b4 = props(m).BoundingBox(4);
+    b1 = floor(props(m).BoundingBox(1));
+    b2 = floor(props(m).BoundingBox(2));
+    b3 = floor(props(m).BoundingBox(3));
+    b4 = floor(props(m).BoundingBox(4));
     
-    figure; imshow(props(m).Image);
     [R,G,B,StdR,StdG,StdB] = find_mean_within_strel(I, props(m).PixelList);
+    
+    % + entropy (move to function?) +
+    Grey = rgb2gray(I);
+    % adjust indexes since the first pixel is included in the size
+    Grey = Grey(b2:b4+b2-1, b1:b3+b1-1);
+    Grey(~props(m).Image) = 0;
+    avg_entropy = entropy(Grey);
     
     % plot
     text(x, y, num2str(m), 'Color', c, 'FontWeight', 'bold');
@@ -115,7 +121,7 @@ for(m = 1:num)
     str = ['Stddev(R,G,B)\t[', num2str(StdR), ', ', num2str(StdG), ', ', num2str(StdB), ']\n'];
     fprintf(str);
     % Entropy here is of the logical, must change to greyscale capture
-    str = ['Avg Entropy\t\t', num2str(entropy(props(m).Image)), '\n\n'];
+    str = ['Avg Entropy\t\t', num2str(avg_entropy), '\n\n'];
     fprintf(str);
 end
 
