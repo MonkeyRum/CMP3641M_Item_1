@@ -127,7 +127,7 @@ end
 
 outline_image = label2rgb(L, 'lines', 'k', 'shuffle');
 outline_image = imdilate(outline_image,se) - outline_image;
-%imshow(outline_image); title('Outlines');
+figure; imshow(outline_image); title('Outlines');
 
 
 
