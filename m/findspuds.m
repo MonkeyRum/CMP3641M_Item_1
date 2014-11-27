@@ -27,9 +27,7 @@ function findspuds(I)
 DEBUG = 0;
 
 %% STEP 0
-if(DEBUG)
-    figure; imshow(I); title('Original input');
-end
+figure; imshow(I); title('Original input'); hold on;
 
 %% STEP 1
 % Create a grey scale version of the image in order to better remove the
@@ -68,7 +66,7 @@ if(DEBUG)
     figure; imshow(fill_image); title('Fill holes');
 end
 
-% step 4 
+%% step 4 
 % open some gaps
 se = strel('diamond',4);
 open_image = imopen(fill_image, se);
@@ -76,11 +74,67 @@ if(DEBUG)
     figure; imshow(open_image); title('Open');
 end
 
-% step 5
+%% step 5
 % label potatoes
 [L, num] = bwlabel(open_image, 8);
+props = regionprops(L, 'All');
+
+% output
+str = ['Number of potatoes:\t', num2str(num), '\n\n'];
+fprintf(str);
+
+for(m = 1:num)
+    % info
+    c = [1,1,1];
+    
+    area = props(m).Area;
+    % 0 is not circular, 1 is circular
+    circularity = (4*pi*area)/(props(m).Perimeter^2);
+    eccentricity = props(m).Eccentricity;
+    
+    x = props(m).Centroid(1);
+    y = props(m).Centroid(2);
+    
+    b1 = props(m).BoundingBox(1);
+    b2 = props(m).BoundingBox(2);
+    b3 = props(m).BoundingBox(3);
+    b4 = props(m).BoundingBox(4);
+    
+    % plot
+    text(x, y, num2str(m), 'Color', c, 'FontWeight', 'bold');
+    rectangle('Position', [b1,b2,b3,b4], 'EdgeColor', c);
+    
+    % print
+    str = ['Potato #', num2str(m), '\n', 'Centroid:\t\t[', num2str(x), ', ', num2str(y), ']\n', 'Eccentricity:\t', num2str(eccentricity), '\n', 'Circularity:\t', num2str(circularity), '\n'];
+    fprintf(str);
+    str = ['Averages(R,G,B)\t[', num2str(m), ', ', num2str(m), ', ', num2str(m), ']\n'];
+    fprintf(str);
+    str = ['Stddev(R,G,B)\t[', num2str(m), ', ', num2str(m), ', ', num2str(m), ']\n'];
+    fprintf(str);
+    str = ['Avg Entropy\t\t', num2str(m), '\n\n'];
+    fprintf(str);
+end
+
 outline_image = label2rgb(L, 'lines', 'k', 'shuffle');
 outline_image = imdilate(outline_image,se) - outline_image;
-if(DEBUG)
-    figure; imshow(outline_image); title('Outlines');
-end
+%imshow(outline_image); title('Outlines');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
