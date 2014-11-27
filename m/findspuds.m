@@ -100,6 +100,9 @@ for(m = 1:num)
     b3 = props(m).BoundingBox(3);
     b4 = props(m).BoundingBox(4);
     
+    figure; imshow(props(m).Image);
+    [R,G,B,StdR,StdG,StdB] = find_mean_within_strel(I, props(m).PixelList);
+    
     % plot
     text(x, y, num2str(m), 'Color', c, 'FontWeight', 'bold');
     rectangle('Position', [b1,b2,b3,b4], 'EdgeColor', c);
@@ -107,11 +110,12 @@ for(m = 1:num)
     % print
     str = ['Potato #', num2str(m), '\n', 'Centroid:\t\t[', num2str(x), ', ', num2str(y), ']\n', 'Eccentricity:\t', num2str(eccentricity), '\n', 'Circularity:\t', num2str(circularity), '\n'];
     fprintf(str);
-    str = ['Averages(R,G,B)\t[', num2str(m), ', ', num2str(m), ', ', num2str(m), ']\n'];
+    str = ['Averages(R,G,B)\t[', num2str(R), ', ', num2str(G), ', ', num2str(B), ']\n'];
     fprintf(str);
-    str = ['Stddev(R,G,B)\t[', num2str(m), ', ', num2str(m), ', ', num2str(m), ']\n'];
+    str = ['Stddev(R,G,B)\t[', num2str(StdR), ', ', num2str(StdG), ', ', num2str(StdB), ']\n'];
     fprintf(str);
-    str = ['Avg Entropy\t\t', num2str(m), '\n\n'];
+    % Entropy here is of the logical, must change to greyscale capture
+    str = ['Avg Entropy\t\t', num2str(entropy(props(m).Image)), '\n\n'];
     fprintf(str);
 end
 
