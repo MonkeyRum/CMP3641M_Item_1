@@ -46,7 +46,7 @@ for m = 1+A:M+A
         
         Capture = I2(m - A2:m + A2 - AdjustA, n - B2: n + B2 - AdjustB);
         Capture = Capture(:); % flatten our matrix
-        Med = median(Capture); % horrifically slow
+        Med = median(double(Capture)); % horrifically slow
         
         MedianFilteredImage(m-A, n-B) = Med;
         
