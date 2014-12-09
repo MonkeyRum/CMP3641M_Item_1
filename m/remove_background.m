@@ -25,5 +25,8 @@ for y=1:h
     end
 end
 
+% make binary
+logical_segment = logical_segment > 0;
+
 end
 

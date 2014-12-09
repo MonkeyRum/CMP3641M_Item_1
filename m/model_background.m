@@ -29,7 +29,7 @@ end
 str = ['post-proeccsing model...', '\n'];
 fprintf(str);
 
-se = strel('disk', 2);
+se = strel('disk', 3);
 background_model(:,:,:) = imdilate(background_model(:,:,:), se);
     
 end
