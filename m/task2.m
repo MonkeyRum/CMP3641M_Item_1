@@ -1,4 +1,4 @@
-function [ segmented ] = task2(  )
+function task2(  )
 
 fprintf('Please ensure Spud dataset 2 is available in MatLabs path');
 
@@ -31,7 +31,7 @@ I = imread(filename);
 mask = remove_background(model, I);
 
 % clean up the mask
-area = bwareaopen(mask, 500);
+area = bwareaopen(mask, 800);
 fill = imfill(area, 'holes');
 
 filter = fspecial('gaussian',[5 5],2);

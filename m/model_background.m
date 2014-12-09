@@ -45,15 +45,8 @@ for i=1:f
             background_model(r, g, b) = 1;
             
         end
-    end
-    
-    str = ['modelling frame: ', num2str(i), '/', num2str(f), '\n'];
-    fprintf(str);
-    
+    end    
 end
-
-str = ['post-proeccsing model...', '\n'];
-fprintf(str);
 
 % dilate our 3D colour cube to assimilate colours close to the ones we
 % flagged in the previous step

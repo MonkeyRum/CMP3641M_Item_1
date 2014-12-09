@@ -34,11 +34,7 @@ for y=1:h
         % remove background if the colour is set in the model
         if model(r, g, b)
             logical_segment(x, y) = 0;
-        end
-
-        str = ['reference pixel: [', num2str(x), ',', num2str(y), ']\n'];
-        fprintf(str);
-        
+        end        
     end
 end
 
