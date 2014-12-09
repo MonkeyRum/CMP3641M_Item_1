@@ -1,4 +1,8 @@
-function [ segmented ] = task2( input_args )
+function [ segmented ] = task2(  )
+
+fprintf('Please ensure Spud dataset 2 is available in MatLabs path');
+
+DILATE = 2;
 
 % I assume the folder Spud dataset 2\Spud dataset 2 is available in path
 
@@ -8,10 +12,22 @@ video = obj.read();
 bg = video(:,:,:,1:454); % bg frames
 
 % model the frames
-model = model_background(bg, 3);
+model = model_background(bg, DILATE);
+
+% run for each image to avoid remodelling the background
+for i=1:12
+    
+    str = ['beltpotato', num2str(i), '.jpg'];
+    task2_impl(str, model);
+
+end
+
+end
+
+function segmented = task2_impl( filename, model )
 
 % create foreground mask
-I = imread(input_args);
+I = imread(filename);
 mask = remove_background(model, I);
 
 % clean up the mask
