@@ -25,12 +25,12 @@ for i=1:f
     fprintf(str);
     
 end
-   
-se = strel('disk', 2);
-background_model(:,:,:) = imdilate(background_model(:,:,:), se);
 
 str = ['post-proeccsing model...', '\n'];
 fprintf(str);
+
+se = strel('disk', 2);
+background_model(:,:,:) = imdilate(background_model(:,:,:), se);
     
 end
 
