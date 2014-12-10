@@ -120,6 +120,11 @@ for(m = 1:num)
     Grey = Grey(b2:b4+b2-1, b1:b3+b1-1);
     Grey(~props(m).Image) = 0;
     avg_entropy = entropy(Grey);
+        
+    % smoothness
+    smoothnessR = 1 - (1/(1 + StdR));
+    smoothnessG = 1 - (1/(1 + StdG));
+    smoothnessB = 1 - (1/(1 + StdB));
     
     % plot
     text(x, y, num2str(m), 'Color', c, 'FontWeight', 'bold');
