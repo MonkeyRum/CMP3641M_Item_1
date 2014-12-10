@@ -94,6 +94,10 @@ figure; imshow(I2);
 % output
 str = ['Number of potatoes:\t', num2str(num), '\n\n'];
 fprintf(str);
+str = ['[Centroid x, y]\t\t\t[Eccentricity]\t\t[Mean r, g, b]\t\t\t\t[Stdev r, g, b]\t\t\t\t[Smooth r, g, b]\t\t\t[Entropy]', '\n'];
+fprintf(str);
+str = '-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n';
+fprintf(str);
 
 for(m = 1:num)
     % info
@@ -125,20 +129,28 @@ for(m = 1:num)
     smoothnessR = 1 - (1/(1 + StdR));
     smoothnessG = 1 - (1/(1 + StdG));
     smoothnessB = 1 - (1/(1 + StdB));
-    
+        
     % plot
     text(x, y, num2str(m), 'Color', c, 'FontWeight', 'bold');
     rectangle('Position', [b1,b2,b3,b4], 'EdgeColor', c);
     
     % print
-    str = ['Potato #', num2str(m), '\n', 'Centroid:\t\t[', num2str(x), ', ', num2str(y), ']\n', 'Eccentricity:\t', num2str(eccentricity), '\n', 'Circularity:\t', num2str(circularity), '\n'];
+    str = ['[', num2str(x), ',', num2str(y), ']\t\t'];
     fprintf(str);
-    str = ['Averages(R,G,B)\t[', num2str(R), ', ', num2str(G), ', ', num2str(B), ']\n'];
+    
+    str = ['[', num2str(eccentricity), ']\t\t\t'];
     fprintf(str);
-    str = ['Stddev(R,G,B)\t[', num2str(StdR), ', ', num2str(StdG), ', ', num2str(StdB), ']\n'];
+    
+    str = ['[', num2str(R), ',', num2str(G), ',', num2str(B), ']\t'];
     fprintf(str);
-    % Entropy here is of the logical, must change to greyscale capture
-    str = ['Avg Entropy\t\t', num2str(avg_entropy), '\n\n'];
+    
+    str = ['[', num2str(StdR), ',', num2str(StdG), ',', num2str(StdB), ']\t'];
+    fprintf(str);
+    
+    str = ['[', num2str(smoothnessR), ',', num2str(smoothnessG), ',', num2str(smoothnessB), ']\t'];
+    fprintf(str);
+    
+    str = ['[', num2str(avg_entropy), ']\t\n'];
     fprintf(str);
 end
 
